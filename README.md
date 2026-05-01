@@ -24,3 +24,16 @@ python manage.py runserver
 - `main` — стабильный код
 - `develop` — разработка
 - `homework/task-XX` — ветки для каждого задания
+
+## База данных
+Проект использует PostgreSQL. Создай файл `.env` в папке `django_project`:
+```DB_NAME=django_homework
+DB_USER=postgres
+DB_PASSWORD=твой_пароль
+DB_HOST=localhost
+DB_PORT=5432
+```
+## Заполнение базы тестовыми данными
+```bash
+python manage.py fill_db
+```

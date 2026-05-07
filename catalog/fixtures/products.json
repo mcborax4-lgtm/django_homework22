@@ -1,0 +1,41 @@
+[
+{
+  "model": "catalog.product",
+  "pk": 1,
+  "fields": {
+    "name": "�������",
+    "description": "��������",
+    "image": "",
+    "category": 1,
+    "price": "50000.00",
+    "created_at": "2026-05-01T17:12:09.268Z",
+    "updated_at": "2026-05-01T17:12:09.268Z"
+  }
+},
+{
+  "model": "catalog.product",
+  "pk": 2,
+  "fields": {
+    "name": "�������",
+    "description": "������� �������",
+    "image": "",
+    "category": 1,
+    "price": "100000.00",
+    "created_at": "2026-05-01T17:12:09.270Z",
+    "updated_at": "2026-05-01T17:12:09.270Z"
+  }
+},
+{
+  "model": "catalog.product",
+  "pk": 3,
+  "fields": {
+    "name": "��������",
+    "description": "��������� ��������",
+    "image": "",
+    "category": 2,
+    "price": "1500.00",
+    "created_at": "2026-05-01T17:12:23.302Z",
+    "updated_at": "2026-05-01T17:12:23.302Z"
+  }
+}
+]

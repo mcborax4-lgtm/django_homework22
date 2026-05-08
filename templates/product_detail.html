@@ -1,0 +1,16 @@
+{% extends 'base.html' %}
+
+{% block title %}{{ product.name }}{% endblock %}
+
+{% block content %}
+<div class="card">
+    <div class="card-body">
+        <h1>{{ product.name }}</h1>
+        <p>{{ product.description }}</p>
+        <p><strong>Категория:</strong> {{ product.category }}</p>
+        <p><strong>Цена:</strong> {{ product.price }} ₽</p>
+        <p><strong>Добавлен:</strong> {{ product.created_at|date:"d.m.Y" }}</p>
+        <a href="{% url 'home' %}" class="btn btn-secondary">Назад</a>
+    </div>
+</div>
+{% endblock %}

@@ -3,9 +3,40 @@
 {% block title %}Главная{% endblock %}
 
 {% block content %}
-<div class="jumbotron">
-    <h1 class="display-4">Добро пожаловать!</h1>
-    <p class="lead">Это главная страница сайта на Django.</p>
-    <a class="btn btn-primary btn-lg" href="/contacts/">Контакты</a>
+<h1 class="mb-4">Каталог товаров</h1>
+
+<div class="row">
+    <a href="{% url 'create_product' %}" class="btn btn-success mb-4">+ Добавить товар</a>
+    {% for product in products %}
+    <div class="col-md-4 mb-4">
+        <div class="card h-100">
+            <div class="card-body">
+                <h5 class="card-title">{{ product.name }}</h5>
+                <p class="card-text">{{ product.description|truncatechars:100 }}</p>
+                <p class="card-text"><strong>Цена: {{ product.price }} ₽</strong></p>
+                <a href="{% url 'product_detail' product.pk %}" class="btn btn-primary">Подробнее</a>
+            </div>
+        </div>
+    </div>
+    {% empty %}
+    <p>Товаров пока нет.</p>
+    {% endfor %}
 </div>
+<nav class="mt-4">
+    <ul class="pagination">
+        {% if products.has_previous %}
+        <li class="page-item">
+            <a class="page-link" href="?page={{ products.previous_page_number }}">Назад</a>
+        </li>
+        {% endif %}
+        <li class="page-item active">
+            <span class="page-link">{{ products.number }} / {{ products.paginator.num_pages }}</span>
+        </li>
+        {% if products.has_next %}
+        <li class="page-item">
+            <a class="page-link" href="?page={{ products.next_page_number }}">Вперёд</a>
+        </li>
+        {% endif %}
+    </ul>
+</nav>
 {% endblock %}

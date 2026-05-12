@@ -1,0 +1,12 @@
+venv/
+__pycache__/
+*.pyc
+*.pyo
+db.sqlite3
+.env
+*.DS_Store
+../.idea/
+django_project/db.sqlite3
+django_project/.env
+.venv/
+media/

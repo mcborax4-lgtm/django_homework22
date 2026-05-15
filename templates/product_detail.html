@@ -11,6 +11,8 @@
         <p><strong>Цена:</strong> {{ product.price }} ₽</p>
         <p><strong>Добавлен:</strong> {{ product.created_at|date:"d.m.Y" }}</p>
         <a href="{% url 'home' %}" class="btn btn-secondary">Назад</a>
+        <a href="{% url 'product_edit' product.pk %}" class="btn btn-warning">Редактировать</a>
+        <a href="{% url 'product_delete' product.pk %}" class="btn btn-danger">Удалить</a>
     </div>
 </div>
 {% endblock %}

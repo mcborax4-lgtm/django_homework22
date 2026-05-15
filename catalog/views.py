@@ -1,8 +1,9 @@
 from django.views.generic import ListView, DetailView, CreateView, UpdateView, DeleteView, TemplateView
 from django.urls import reverse_lazy
+from django.contrib.auth.mixins import LoginRequiredMixin, UserPassesTestMixin
+from django.core.exceptions import PermissionDenied
 from .models import Product, Category
 from .forms import ProductForm
-from django.contrib.auth.mixins import LoginRequiredMixin
 
 
 class HomeView(ListView):
@@ -24,17 +25,31 @@ class ProductCreateView(LoginRequiredMixin, CreateView):
     template_name = 'create_product.html'
     success_url = reverse_lazy('home')
 
+    def form_valid(self, form):
+        form.instance.owner = self.request.user
+        return super().form_valid(form)
 
-class ProductUpdateView(LoginRequiredMixin, UpdateView):
+
+class ProductUpdateView(LoginRequiredMixin, UserPassesTestMixin, UpdateView):
     model = Product
     form_class = ProductForm
     template_name = 'create_product.html'
     success_url = reverse_lazy('home')
 
-class ProductDeleteView(LoginRequiredMixin, DeleteView):
+    def test_func(self):
+        product = self.get_object()
+        return self.request.user == product.owner
+
+
+class ProductDeleteView(LoginRequiredMixin, UserPassesTestMixin, DeleteView):
     model = Product
     template_name = 'product_confirm_delete.html'
     success_url = reverse_lazy('home')
+
+    def test_func(self):
+        product = self.get_object()
+        return (self.request.user == product.owner or
+                self.request.user.has_perm('catalog.delete_product'))
 
 
 class ContactsView(TemplateView):

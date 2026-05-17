@@ -10,9 +10,17 @@
         <p><strong>Категория:</strong> {{ product.category }}</p>
         <p><strong>Цена:</strong> {{ product.price }} ₽</p>
         <p><strong>Добавлен:</strong> {{ product.created_at|date:"d.m.Y" }}</p>
+        <p><strong>Статус:</strong> {% if product.is_published %}Опубликован{% else %}Не опубликован{% endif %}</p>
+
         <a href="{% url 'home' %}" class="btn btn-secondary">Назад</a>
+
+        {% if user == product.owner %}
         <a href="{% url 'product_edit' product.pk %}" class="btn btn-warning">Редактировать</a>
+        {% endif %}
+
+        {% if user == product.owner or perms.catalog.delete_product %}
         <a href="{% url 'product_delete' product.pk %}" class="btn btn-danger">Удалить</a>
+        {% endif %}
     </div>
 </div>
 {% endblock %}

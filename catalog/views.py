@@ -1,9 +1,11 @@
 from django.views.generic import ListView, DetailView, CreateView, UpdateView, DeleteView, TemplateView
 from django.urls import reverse_lazy
 from django.contrib.auth.mixins import LoginRequiredMixin, UserPassesTestMixin
-from django.core.exceptions import PermissionDenied
+from django.views.decorators.cache import cache_page
+from django.utils.decorators import method_decorator
 from .models import Product, Category
 from .forms import ProductForm
+from .services import get_products_by_category, get_cached_products
 
 
 class HomeView(ListView):
@@ -12,7 +14,11 @@ class HomeView(ListView):
     context_object_name = 'products'
     paginate_by = 2
 
+    def get_queryset(self):
+        return get_cached_products()
 
+
+@method_decorator(cache_page(60), name='dispatch')
 class ProductDetailView(LoginRequiredMixin, DetailView):
     model = Product
     template_name = 'product_detail.html'
@@ -54,3 +60,17 @@ class ProductDeleteView(LoginRequiredMixin, UserPassesTestMixin, DeleteView):
 
 class ContactsView(TemplateView):
     template_name = 'contacts.html'
+
+
+class ProductByCategoryView(LoginRequiredMixin, ListView):
+    template_name = 'products_by_category.html'
+    context_object_name = 'products'
+
+    def get_queryset(self):
+        return get_products_by_category(self.kwargs['category_id'])
+
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+        context['category'] = Category.objects.get(pk=self.kwargs['category_id'])
+        return context
+

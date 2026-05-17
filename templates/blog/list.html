@@ -4,7 +4,9 @@
 
 {% block content %}
 <h1 class="mb-4">Блог</h1>
+{% if perms.blog.add_blogpost %}
 <a href="{% url 'blog_create' %}" class="btn btn-success mb-4">+ Новая статья</a>
+{% endif %}
 
 <div class="row">
     {% for post in posts %}
